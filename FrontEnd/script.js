@@ -31,3 +31,13 @@ function onLoginClick(){
 function onLogOut(){
     window.location.href= "./login.html";
 }
+
+// Redirect to index.html
+function redirectToIndex() {
+    window.location.href = "index.html";
+}
+
+// Redirect to login.html
+function redirectToLogin() {
+    window.location.href = "login.html";
+}
