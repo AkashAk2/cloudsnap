@@ -101,6 +101,18 @@
       >Delete Image</a
       >
     </li>
+
+    <li class="nav-item" role="presentation">
+      <a class="nav-link"
+         id="ex1-tab-6"
+         data-mdb-toggle="tab"
+         href="#ex1-tabs-6"
+         role="tab"
+         aria-controls="ex1-tabs-6"
+         aria-selected="false"
+      >Results</a>
+    </li>
+
   </ul>
   <!-- Tabs navs -->
 
@@ -141,13 +153,13 @@
             aria-labelledby="ex1-tab-2"
     >
       <div class="container-fluid">
-        <form class="form-main-group upload-image-group" action="" method="get">
+        <form id="get-image-form" class="form-main-group upload-image-group" action="" method="get">
           <button class="btn btn-info w-auto" type="button" onclick="addFormTags('getImageByTags')">
             Add New Tag</button>
           <div id="getImageByTags"></div>
 
           <div class="action-buttons">
-            <button class="btn btn-success">Get Image</button>
+            <button class="btn btn-success" id="getImageButton">Get Image</button>
             <button type="reset" class="btn btn-outline-danger">
               Reset
             </button>
@@ -233,6 +245,19 @@
         </form>
       </div>
     </div>
+
+    <div class="tab-pane fade"
+         id="ex1-tabs-6"
+         role="tabpanel"
+         aria-labelledby="ex1-tab-6"
+    >
+      <div class="container-fluid">
+        <div id="resultsContainer">
+          <!-- Results will be appended here -->
+        </div>
+      </div>
+    </div>
+
   </div>
   <!-- Tabs content -->
 </div>
