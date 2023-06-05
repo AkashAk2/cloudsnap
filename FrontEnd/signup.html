@@ -20,6 +20,7 @@
           rel="stylesheet"
   />
   <!-- Custom CSS -->
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
   <link rel="stylesheet" href="./style.css" />
   <title>Signup for CloudSnap</title>
 </head>
@@ -58,7 +59,7 @@
         <button
                 type="button"
                 class="btn btn-primary btn-block mb-4"
-                onclick="redirectToIndex()"
+                onclick="redirectToIndex(); return false;" 
         >
           Sign up
         </button>
@@ -73,6 +74,12 @@
         </button>
 
       </form>
+      <script>
+        document.getElementById("signup-form").addEventListener("submit", function(event){
+          event.preventDefault();
+          redirectToIndex();
+        });
+        </script>
     </div>
   </div>
 </div>

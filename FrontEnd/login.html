@@ -24,6 +24,7 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
     <script type="text/javascript" src="./script.js"></script>
     <link rel="stylesheet" href="./style.css" />
     <title>Login to CloudSnap</title>
@@ -34,7 +35,7 @@
         <div class="container-fluid">
           <h2>Login to CloudSnap</h2>
           <p>Enter your credentials to login</p>
-          <form>
+          <form id="login-form">
             <!-- Email input -->
             <div class="form-outline mb-4">
               <input type="email" id="emailid" class="form-control" />
@@ -51,9 +52,9 @@
 
             <!-- Submit button -->
             <button
-              type="button"
+              type="submit"
               class="btn btn-primary btn-block mb-4"
-              onclick="onLoginClick()"
+              onclick="onLoginClick(); return false;"
             >
               Sign in
             </button>
@@ -62,6 +63,12 @@
               <a href="signup.html">Sign up.</a>
             </p>
           </form>
+          <script>
+            document.getElementById("login-form").addEventListener("submit", function(event){
+              event.preventDefault();
+              onLoginClick();
+            });
+            </script>
         </div>
       </div>
     </div>
