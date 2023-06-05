@@ -19,17 +19,15 @@ function addFormTags(id){
             placeholder="Tag value or count"
             name="tag${totalTags[id]}count"
       />`;
- 
+
     const element = document.getElementById(id);
     element.appendChild(formGroupDiv);
 }
  
 // Initialize the Amazon Cognito credentials provider
 AWS.config.region = 'us-east-1'; // your region
-// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-//     IdentityPoolId: 'IDENTITY_POOL_ID', // your identity pool id
-// });
- 
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: 'us-east-1:a5c2887c-1d2d-47cb-be91-e6bceb3dd9d1'});
+
 // Cognito User Pool Id
 const userPoolId = 'us-east-1_RwtDTN0q2'; // your user pool id
  
@@ -128,3 +126,14 @@ function onLogOut(){
 function redirectToLogin(){
     window.location.href= "./login.html";
 }
+
+// Attach event listener to the signup form submit event
+document.getElementById("signup-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    redirectToIndex();
+});
+
+document.getElementById("login-form").addEventListener("submit", function(event){
+    event.preventDefault();
+    onLoginClick();
+});

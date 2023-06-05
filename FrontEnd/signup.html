@@ -19,8 +19,9 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
           rel="stylesheet"
   />
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1390.0.min.js"></script>
+  <script type="text/javascript" src="./script.js"></script>
   <!-- Custom CSS -->
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
   <link rel="stylesheet" href="./style.css" />
   <title>Signup for CloudSnap</title>
 </head>
@@ -30,7 +31,7 @@
     <div class="container-fluid">
       <h2>Signup for CloudSnap</h2>
       <p>Create your account to get started</p>
-      <form>
+      <form id="signup-form">
         <!-- First Name input -->
         <div class="form-outline mb-4">
           <input type="text" id="firstName" class="form-control" />
@@ -74,17 +75,8 @@
         </button>
 
       </form>
-      <script>
-        document.getElementById("signup-form").addEventListener("submit", function(event){
-          event.preventDefault();
-          redirectToIndex();
-        });
-        </script>
     </div>
   </div>
 </div>
-
-<!-- User-defined script -->
-<script src="./script.js"></script>
 </body>
 </html>
