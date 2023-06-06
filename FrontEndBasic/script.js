@@ -23,6 +23,45 @@ function addFormTags(id){
     const element = document.getElementById(id);
     element.appendChild(formGroupDiv);
 }
+
+//UPLOAD IMAGE function
+function uploadImage(event) {
+  event.preventDefault();
+  
+  var fileInput = document.querySelector('#imageFile');
+  var fileName = fileInput.value.split('\\').pop();
+  
+  var reader = new FileReader();
+  reader.onload = function() {
+    var fileData = reader.result.replace(/^data:.+;base64,/, '');
+    
+    fetch('https://hjowwmchpl.execute-api.us-east-1.amazonaws.com/test/upload', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        filename: fileName,
+        image: fileData
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("ex1-tab-6").click();
+      document.getElementById("resultsContainer").innerHTML = '';
+
+      let resultDiv = document.createElement("div");
+      resultDiv.textContent = JSON.stringify(data);
+      document.getElementById("resultsContainer").appendChild(resultDiv);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };
+  
+  reader.readAsDataURL(fileInput.files[0]);
+}
+
  
 // GET IMAGE Functionality
 function getImageTags(event){
@@ -123,7 +162,7 @@ function updateImageTags(event) {
  
 //MAIN function calls
 document.addEventListener("DOMContentLoaded", function() {
-    // Assuming your "Get Image" button has an id of "getImageButton"
+    document.getElementById('uploadImageButton').addEventListener('click', uploadImage);
     document.getElementById("getImageButton").addEventListener("click", getImageTags);
     document.getElementById("updateButton").addEventListener("click", updateImageTags);
 });

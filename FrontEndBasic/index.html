@@ -125,7 +125,7 @@
             aria-labelledby="ex1-tab-1"
     >
       <div class="container-fluid">
-        <form class="form-main-group upload-image-group" action="#" method="get">
+        <form id="uploadImageForm" class="form-main-group upload-image-group">
           <div class="form-group">
             <label for="imageFile">Select Image to upload</label>
             <input
@@ -136,7 +136,7 @@
             />
           </div>
           <div class="action-buttons">
-            <button class="btn btn-success" name="uploadImage">
+            <button class="btn btn-success" id="uploadImageButton">
               Upload
             </button>
             <button type="reset" class="btn btn-outline-danger">
