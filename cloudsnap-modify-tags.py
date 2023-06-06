@@ -3,6 +3,11 @@ import boto3
 from urllib.parse import parse_qs
 
 def lambda_handler(event, context):
+    cors_headers = {
+        "Access-Control-Allow-Origin": "*",  # This allows any origin
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    }
     try:
         # Parsing the request
         parsed_body = parse_qs(event['body'])
@@ -12,6 +17,7 @@ def lambda_handler(event, context):
         if 'type' not in parsed_body or parsed_body.get('type')[0] not in ['0', '1']:
             return {
                 'statusCode': 400,
+                'headers': cors_headers,
                 'body': json.dumps({'error': 'Invalid or missing "type" parameter.'})
             }
 
@@ -26,12 +32,14 @@ def lambda_handler(event, context):
         except Exception as e:
             return {
                 'statusCode': 404,
+                'headers': cors_headers,
                 'body': json.dumps({'error': 'Error occurred while getting the image: ' + str(e)})
             }
 
         if 'Item' not in response:
             return {
                 'statusCode': 404,
+                'headers': cors_headers,
                 'body': json.dumps({'error': 'Image not found'})
             }
 
@@ -46,6 +54,7 @@ def lambda_handler(event, context):
                 if count_key not in parsed_body:
                     return {
                         'statusCode': 400,
+                        'headers': cors_headers,
                         'body': json.dumps({'error': f'Missing "{count_key}" parameter.'})
                     }
                     
@@ -77,16 +86,19 @@ def lambda_handler(event, context):
         except Exception as e:
             return {
                 'statusCode': 500,
+                'headers': cors_headers,
                 'body': json.dumps({'error': 'Error occurred while updating the image: ' + str(e)})
             }
 
         return {
             'statusCode': 200,
+            'headers': cors_headers,
             'body': json.dumps({'message': 'Success'})
         }
 
     except Exception as e:
         return {
             'statusCode': 500,
+            'headers': cors_headers,
             'body': json.dumps({'error': 'An unexpected error occurred: ' + str(e)})
         }

@@ -5,6 +5,11 @@ import re
 dynamodb = boto3.resource('dynamodb')
 
 def lambda_handler(event, context):
+    cors_headers = {
+        "Access-Control-Allow-Origin": "*",  # This allows any origin
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    }
     table = dynamodb.Table('cloudsnap-db')
 
     # extract the parameters from the event
@@ -22,6 +27,7 @@ def lambda_handler(event, context):
     if len(tags) != len(tagcounts):
         return {
             'statusCode': 400,
+            'headers': cors_headers,
             'body': json.dumps('Bad Request: Mismatched number of tags and counts.')
         }
 
@@ -29,6 +35,7 @@ def lambda_handler(event, context):
         if not alpha_pattern.match(value):
             return {
                 'statusCode': 400,
+                'headers': cors_headers,
                 'body': json.dumps(f'Bad Request: Invalid tag value for {tag}.')
             }
 
@@ -36,6 +43,7 @@ def lambda_handler(event, context):
         if not numeric_pattern.match(value):
             return {
                 'statusCode': 400,
+                'headers': cors_headers,
                 'body': json.dumps(f'Bad Request: Invalid count value for {tagcount}.')
             }
 
@@ -61,11 +69,13 @@ def lambda_handler(event, context):
     if len(matching_image_urls) == 0:
         return {
             'statusCode': 404,
+            'headers': cors_headers,
             'body': json.dumps('No matching images found.')
         }
 
     # return the list of image URLs
     return {
         'statusCode': 200,
+        'headers': cors_headers,
         'body': json.dumps(matching_image_urls)
     }
