@@ -159,10 +159,45 @@ function updateImageTags(event) {
             console.error('Error:', error);
     });
 }
+
+//DELETE image
+// DELETE IMAGE Functionality
+function deleteImage(event) {
+    event.preventDefault();
+
+    let imageUrl = document.getElementById("imageUrl").value; // assuming the Image Url is an input element with id 'imageUrl'
+    if (imageUrl) {
+        fetch(`https://hjowwmchpl.execute-api.us-east-1.amazonaws.com/test/delete?image_url=${imageUrl}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Switch to the "Results" tab
+            document.getElementById("ex1-tab-6").click();
+     
+            // Clear the previous results
+            document.getElementById("resultsContainer").innerHTML = '';
+     
+            // Append the new results
+            let resultDiv = document.createElement("div");
+            resultDiv.textContent = JSON.stringify(data);
+            document.getElementById("resultsContainer").appendChild(resultDiv);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    } else {
+        console.log('Image Url is missing.');
+    }
+}
  
 //MAIN function calls
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('uploadImageButton').addEventListener('click', uploadImage);
     document.getElementById("getImageButton").addEventListener("click", getImageTags);
     document.getElementById("updateButton").addEventListener("click", updateImageTags);
+    document.getElementById("deleteImageButton").addEventListener("click", deleteImage);
 });

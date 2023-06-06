@@ -1,14 +1,18 @@
 import boto3
 from botocore.exceptions import ClientError
+import json
 
 def lambda_handler(event, context):
-    # Get the image URL from the event
+    cors_headers = {
+        "Access-Control-Allow-Origin": "*",  
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "OPTIONS,DELETE"
+    }
+
     image_url = event.get('queryStringParameters', {}).get('image_url', '')
     
-    # Get the image name from the URL
     image_name = image_url.split('/')[-1]
     
-    # Add your bucket name here
     bucket_name = 'assingment2-imageuploads'
     
     s3_client = boto3.client('s3')
@@ -18,14 +22,12 @@ def lambda_handler(event, context):
     s3_exists = False
     dynamodb_exists = False
 
-    # Check if the image exists in S3 bucket
     try:
         s3_client.head_object(Bucket=bucket_name, Key=image_name)
         s3_exists = True
     except ClientError as e:
         pass
     
-    # Check if the image URL exists in DynamoDB table
     try:
         response = table.get_item(Key={'ImageURL': image_url})
         if 'Item' in response:
@@ -36,10 +38,10 @@ def lambda_handler(event, context):
     if not s3_exists and not dynamodb_exists:
         return {
             'statusCode': 404,
-            'body': 'The image does not exist in either S3 or Database.'
+            'headers': cors_headers,
+            'body': json.dumps('The image does not exist in either S3 or Database.')
         }
 
-    # If the image exists in either S3 or DynamoDB, delete it
     try:
         response_message = 'Successfully deleted the image from'
         
@@ -53,10 +55,14 @@ def lambda_handler(event, context):
         
         return {
             'statusCode': 200,
-            'body': response_message + '.'
+            'headers': cors_headers,
+            'body': json.dumps(response_message)
         }
     except ClientError as e:
         return {
             'statusCode': 500,
-            'body': f'Error deleting the image from S3 or Database: {e}'
+            'headers': cors_headers,
+            'body': json.dumps(
+                'error: f Error deleting the image from S3 or Database: {e}'
+            )
         }
