@@ -191,27 +191,32 @@ function findImage(event) {
         })
         .then(response => response.json())
         .then(data => {
-            // Switch to the "Results" tab
-            document.getElementById("ex1-tab-6").click();
+            if(Array.isArray(data)) {
+                // Switch to the "Results" tab
+                document.getElementById("ex1-tab-6").click();
 
-            // Clear the previous results
-            document.getElementById("resultsContainer").innerHTML = '';
+                // Clear the previous results
+                document.getElementById("resultsContainer").innerHTML = '';
 
-            // Create an ordered list
-            let orderedList = document.createElement("ol");
+                // Create an ordered list
+                let orderedList = document.createElement("ol");
 
-            // Iterate through the results array
-            data.forEach(function(result, index) {
-                // Create a list item for each result
-                let listItem = document.createElement("li");
-                listItem.textContent = result;
-                // Append the list item to the ordered list
-                orderedList.appendChild(listItem);
-            });
+                // Iterate through the results array
+                data.forEach(function(result, index) {
+                    // Create a list item for each result
+                    let listItem = document.createElement("li");
+                    listItem.textContent = result;
+                    // Append the list item to the ordered list
+                    orderedList.appendChild(listItem);
+                });
 
-            // Append the ordered list to the results container
-            document.getElementById("resultsContainer").appendChild(orderedList);
-        })
+                // Append the ordered list to the results container
+                document.getElementById("resultsContainer").appendChild(orderedList);
+            } else {
+                //Append the ordered list to the results container
+                console.error('Error:', data)
+            }
+            })
         .catch((error) => {
             console.error('Error:', error);
         });
