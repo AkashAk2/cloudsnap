@@ -160,6 +160,70 @@ function updateImageTags(event) {
     });
 }
 
+//FIND QUERY WITH IMAGE
+function findImage(event) {
+    event.preventDefault();
+ 
+    let form = document.getElementById("find-image-form");
+    let fileInput = form.querySelector('input[name="findImageFile"]');
+    let imageFile = fileInput.files[0];
+
+    if (!imageFile) {
+        console.error("No file selected");
+        return;
+    }
+
+    if (imageFile.size > 10 * 1024 * 1024) { // File size in bytes, 10 * 1024 * 1024 = 10MB
+        alert("File is too large. Maximum size is 10MB.");
+        return;
+    }
+
+    let reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+    reader.onload = function () {
+        let base64Image = reader.result.split(',')[1]; // Remove the "data:image/*;base64," part
+        fetch('https://hjowwmchpl.execute-api.us-east-1.amazonaws.com/test/findimages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({imageFile: base64Image})
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Switch to the "Results" tab
+            document.getElementById("ex1-tab-6").click();
+
+            // Clear the previous results
+            document.getElementById("resultsContainer").innerHTML = '';
+
+            // Create an ordered list
+            let orderedList = document.createElement("ol");
+
+            // Iterate through the results array
+            data.forEach(function(result, index) {
+                // Create a list item for each result
+                let listItem = document.createElement("li");
+                listItem.textContent = result;
+                // Append the list item to the ordered list
+                orderedList.appendChild(listItem);
+            });
+
+            // Append the ordered list to the results container
+            document.getElementById("resultsContainer").appendChild(orderedList);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+}
+
+
+
+
 //DELETE image
 // DELETE IMAGE Functionality
 function deleteImage(event) {
@@ -199,5 +263,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('uploadImageButton').addEventListener('click', uploadImage);
     document.getElementById("getImageButton").addEventListener("click", getImageTags);
     document.getElementById("updateButton").addEventListener("click", updateImageTags);
+    document.getElementById("findImageButton").addEventListener("click", findImage);
     document.getElementById("deleteImageButton").addEventListener("click", deleteImage);
 });

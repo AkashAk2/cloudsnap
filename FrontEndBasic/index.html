@@ -203,18 +203,18 @@
             aria-labelledby="ex1-tab-4"
     >
       <div class="container-fluid">
-        <form class="form-main-group upload-image-group" action="#" method="get">
+        <form id="find-image-form" class="form-main-group upload-image-group" action="#" method="get">
           <div class="form-group">
             <label for="imageFile">Select Image to upload</label>
             <input
                     type="file"
                     class="form-control"
-                    name="imageFile"
+                    name="findImageFile"
             />
           </div>
  
           <div class="action-buttons">
-            <button class="btn btn-success">Find</button>
+            <button id="findImageButton" class="btn btn-success">Find</button>
             <button type="reset" class="btn btn-outline-danger">
               Reset
             </button>
