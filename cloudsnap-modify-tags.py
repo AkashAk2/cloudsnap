@@ -6,7 +6,7 @@ def lambda_handler(event, context):
     cors_headers = {
         "Access-Control-Allow-Origin": "*",  # This allows any origin
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+        "Access-Control-Allow-Methods": "OPTIONS,POST"
     }
     try:
         # Parsing the request
@@ -18,7 +18,7 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 400,
                 'headers': cors_headers,
-                'body': json.dumps({'error': 'Invalid or missing "type" parameter.'})
+                'body': json.dumps("Invalid or missing parameter."})
             }
 
         action_type = int(parsed_body.get('type')[0])  # 1 for add, 0 for remove
@@ -33,14 +33,14 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 404,
                 'headers': cors_headers,
-                'body': json.dumps({'error': 'Error occurred while getting the image: ' + str(e)})
+                'body': json.dumps("Error occurred while getting the image: " + str(e))
             }
 
         if 'Item' not in response:
             return {
                 'statusCode': 404,
                 'headers': cors_headers,
-                'body': json.dumps({'error': 'Image not found'})
+                'body': json.dumps("Image not found.")
             }
 
         item = response['Item']
@@ -55,7 +55,7 @@ def lambda_handler(event, context):
                     return {
                         'statusCode': 400,
                         'headers': cors_headers,
-                        'body': json.dumps({'error': f'Missing "{count_key}" parameter.'})
+                        'body': json.dumps(f'Missing "{count_key}" parameter.')
                     }
                     
                 tag_name = parsed_body[tag_key][0]
@@ -87,18 +87,18 @@ def lambda_handler(event, context):
             return {
                 'statusCode': 500,
                 'headers': cors_headers,
-                'body': json.dumps({'error': 'Error occurred while updating the image: ' + str(e)})
+                'body': json.dumps('Error occurred while updating the image: ' + str(e))
             }
 
         return {
             'statusCode': 200,
             'headers': cors_headers,
-            'body': json.dumps({'message': 'Success'})
+            'body': json.dumps('Successfully updated the tags.')
         }
 
     except Exception as e:
         return {
             'statusCode': 500,
             'headers': cors_headers,
-            'body': json.dumps({'error': 'An unexpected error occurred: ' + str(e)})
+            'body': json.dumps('An unexpected error occurred: ' + str(e))
         }
