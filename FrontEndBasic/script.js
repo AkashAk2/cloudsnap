@@ -35,7 +35,7 @@ function uploadImage(event) {
   reader.onload = function() {
     var fileData = reader.result.replace(/^data:.+;base64,/, '');
     
-    fetch('https://hjowwmchpl.execute-api.us-east-1.amazonaws.com/test/upload', {
+    fetch('https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/upload', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ function getImageTags(event){
     }
  
     // Create the full URL
-    let url = 'https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/test/search?' + formData.toString();
+    let url = 'https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/search?' + formData.toString();
  
     fetch(url, {
         method: 'GET',
@@ -138,7 +138,7 @@ function updateImageTags(event) {
         }
     }
  
-    fetch('https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/test/modifytags', {
+    fetch('https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/modifytags', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -182,7 +182,7 @@ function findImage(event) {
     reader.readAsDataURL(imageFile);
     reader.onload = function () {
         let base64Image = reader.result.split(',')[1]; // Remove the "data:image/*;base64," part
-        fetch('https://hjowwmchpl.execute-api.us-east-1.amazonaws.com/test/findimages', {
+        fetch('https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/search', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -221,17 +221,13 @@ function findImage(event) {
     };
 }
 
-
-
-
-//DELETE image
 // DELETE IMAGE Functionality
 function deleteImage(event) {
     event.preventDefault();
 
     let imageUrl = document.getElementById("imageUrl").value; // assuming the Image Url is an input element with id 'imageUrl'
     if (imageUrl) {
-        fetch(`https://hjowwmchpl.execute-api.us-east-1.amazonaws.com/test/delete?image_url=${imageUrl}`, {
+        fetch('https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/delete?image_url=${imageUrl}', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -280,7 +276,7 @@ function onLogOut() {
     }
 
     // Logout URL
-    var logoutUrl = 'https://cloudsnap27.auth.us-east-1.amazoncognito.com/logout?client_id=4pkqgeeo8a023t05qd5ln9drao&logout_uri=https://cloudsnap27.auth.us-east-1.amazoncognito.com/login?client_id=4pkqgeeo8a023t05qd5ln9drao&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fs3.amazonaws.com%2Fwww.cloudsnapimage.com%2Findex.html';
+    var logoutUrl = 'https://cloudsnap27.auth.us-east-1.amazoncognito.com/logout?client_id=4pkqgeeo8a023t05qd5ln9drao&logout_uri=https://cloudsnap27.auth.us-east-1.amazoncognito.com/login?client_id=4pkqgeeo8a023t05qd5ln9drao&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fcloudsnapweb.s3.amazonaws.com%2Findex.html';
 
     // Redirect to the logout URL
     window.location.href = logoutUrl;
