@@ -203,11 +203,20 @@ function findImage(event) {
 
                 // Iterate through the results array
                 data.forEach(function(result, index) {
-                    // Create a list item for each result
-                    let listItem = document.createElement("li");
-                    listItem.textContent = result;
-                    // Append the list item to the ordered list
-                    orderedList.appendChild(listItem);
+                    //extract last part
+                    let urlParts = result.split("/");
+                    let lastPart = urlParts[urlParts.length - 1];
+
+                    //check if it is less than 20 characters
+                    let imageName = lastPart.split('.')[0];
+                    if (imageName.length < 20) {
+                        // Create a list item for each result
+                        let listItem = document.createElement("li");
+                        listItem.textContent = result;
+                        // Append the list item to the ordered list
+                        orderedList.appendChild(listItem);
+                    }
+
                 });
 
                 // Append the ordered list to the results container
