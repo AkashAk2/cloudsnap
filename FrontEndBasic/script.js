@@ -227,7 +227,7 @@ function deleteImage(event) {
 
     let imageUrl = document.getElementById("imageUrl").value; // assuming the Image Url is an input element with id 'imageUrl'
     if (imageUrl) {
-        fetch('https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/delete?image_url=${imageUrl}', {
+        fetch(`https://6irmyz4kvg.execute-api.us-east-1.amazonaws.com/prod/delete?image_url=${imageUrl}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
