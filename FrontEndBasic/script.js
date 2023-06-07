@@ -163,7 +163,7 @@ function updateImageTags(event) {
 //FIND QUERY WITH IMAGE
 function findImage(event) {
     event.preventDefault();
- 
+
     let form = document.getElementById("find-image-form");
     let fileInput = form.querySelector('input[name="findImageFile"]');
     let imageFile = fileInput.files[0];
@@ -189,46 +189,45 @@ function findImage(event) {
             },
             body: JSON.stringify({imageFile: base64Image})
         })
-        .then(response => response.json())
-        .then(data => {
-            if(Array.isArray(data)) {
-                // Switch to the "Results" tab
-                document.getElementById("ex1-tab-6").click();
+            .then(response => response.json())
+            .then(data => {
+                if(Array.isArray(data)) {
+                    // Switch to the "Results" tab
+                    document.getElementById("ex1-tab-6").click();
 
-                // Clear the previous results
-                document.getElementById("resultsContainer").innerHTML = '';
+                    // Clear the previous results
+                    document.getElementById("resultsContainer").innerHTML = '';
 
-                // Create an ordered list
-                let orderedList = document.createElement("ol");
+                    // Create an ordered list
+                    let orderedList = document.createElement("ol");
 
-                // Iterate through the results array
-                data.forEach(function(result, index) {
-                    //extract last part
-                    let urlParts = result.split("/");
-                    let lastPart = urlParts[urlParts.length - 1];
-
-                    //check if it is less than 20 characters
-                    let imageName = lastPart.split('.')[0];
-                    if (imageName.length < 20) {
+                    // Iterate through the results array
+                    data.forEach(function(result, index) {
                         // Create a list item for each result
                         let listItem = document.createElement("li");
                         listItem.textContent = result;
                         // Append the list item to the ordered list
                         orderedList.appendChild(listItem);
-                    }
+                    });
 
-                });
+                    // Append the ordered list to the results container
+                    document.getElementById("resultsContainer").appendChild(orderedList);
+                } else {
+                    // Switch to the "Results" tab
+                    document.getElementById("ex1-tab-6").click();
 
-                // Append the ordered list to the results container
-                document.getElementById("resultsContainer").appendChild(orderedList);
-            } else {
-                //Append the ordered list to the results container
-                console.error('Error:', data)
-            }
+                    // Clear the previous results
+                    document.getElementById("resultsContainer").innerHTML = '';
+
+                    // Append the new results
+                    let resultDiv = document.createElement("div");
+                    resultDiv.textContent = JSON.stringify(data);
+                    document.getElementById("resultsContainer").appendChild(resultDiv);
+                }
             })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     };
     reader.onerror = function (error) {
         console.log('Error: ', error);
