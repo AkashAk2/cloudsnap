@@ -266,3 +266,22 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("findImageButton").addEventListener("click", findImage);
     document.getElementById("deleteImageButton").addEventListener("click", deleteImage);
 });
+
+function onLogOut() {
+    var poolData = {
+        UserPoolId: 'us-east-1_M8wfM1a25',
+        ClientId: '4pkqgeeo8a023t05qd5ln9drao'
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+    var cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser != null) {
+        cognitoUser.signOut();
+    }
+
+    // Logout URL
+    var logoutUrl = `https://cloudsnap27.auth.us-east-1.amazoncognito.com/logout?client_id=4pkqgeeo8a023t05qd5ln9drao&logout_uri=https://cloudsnap27.auth.us-east-1.amazoncognito.com/login?client_id=4pkqgeeo8a023t05qd5ln9drao&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Fhttps%3A%2F%2Fs3.amazonaws.com%2Fwww.cloudsnapimage.com%2Findex.html`;
+
+    // Redirect to the logout URL
+    window.location.href = logoutUrl;
+}
